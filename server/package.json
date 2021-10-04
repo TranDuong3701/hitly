@@ -1,0 +1,27 @@
+{
+    "name": "shortly-server",
+    "version": "1.0.0",
+    "description": "build server for shortly app",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon server.js"
+    },
+    "author": "duo",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "express-mongo-sanitize": "^2.1.0",
+        "express-rate-limit": "^5.4.0",
+        "helmet": "^4.6.0",
+        "hpp": "^0.2.3",
+        "mongoose": "^6.0.8",
+        "shortid": "^2.2.16",
+        "xss-clean": "^0.1.1"
+    },
+    "devDependencies": {
+        "dotenv": "^10.0.0",
+        "nodemon": "^2.0.13"
+    }
+}

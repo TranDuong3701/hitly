@@ -1,6 +1,6 @@
 import http from "./httpService";
 
-const apiEndpoint = "http://localhost:8000/api/v1/urls";
+const apiEndpoint = "http://18.139.117.2:8000/api/v1/urls";
 
 export const createUrl = (url) => http.post(apiEndpoint, url);
 

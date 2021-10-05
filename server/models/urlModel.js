@@ -18,7 +18,7 @@ const urlSchema = new mongoose.Schema(
 
 urlSchema.pre("save", function (next) {
     this.code = shortid.generate();
-    this.shortUrl = `http://localhost/${this.code}`;
+    this.shortUrl = `http://hitly.club/${this.code}`;
     next();
 });
 

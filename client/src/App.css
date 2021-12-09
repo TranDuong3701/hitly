@@ -19,6 +19,12 @@
     animation: color-change-2x 2s linear infinite alternate both;
 }
 
+.qr-code   {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .tracking-in-contract-bck {
     -webkit-animation: tracking-in-contract-bck 1s
         cubic-bezier(0.215, 0.61, 0.355, 1) both;

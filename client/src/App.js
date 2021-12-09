@@ -4,6 +4,7 @@ import Redirect from "./components/Redirect";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import QRCode from "react-qr-code";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./App.css";
@@ -11,12 +12,14 @@ import "./App.css";
 function App() {
     const [url, setUrl] = useState("");
     const [longUrl, setLongUrl] = useState("");
+    const [qrUrl, setQrUrl] = useState("");
     const notify = () => toast.success("Copied!");
 
     const handleSubmitUrl = async (e) => {
         e.preventDefault();
         const { data: shortUrl } = await createUrl({ longUrl });
         setUrl(shortUrl);
+        setQrUrl(longUrl);
         setLongUrl("");
     };
 
@@ -81,6 +84,16 @@ function App() {
                                             </>
                                         )}
                                     </div>
+                                </div>
+
+                                <div className="qr-code">
+                                    {url.shortUrl && (
+                                        <QRCode
+                                            size={200}
+                                            value={qrUrl}
+                                            style={{ marginTop: "1rem" }}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

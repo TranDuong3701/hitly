@@ -14,8 +14,8 @@ function App() {
     const [longUrl, setLongUrl] = useState("");
     const [qrUrl, setQrUrl] = useState("");
     const notify = (type = "success", msg) => {
-        if (type === "error") toast.error(msg);
-        else toast.success(msg);
+        if (type === "error") return toast.error(msg);
+        else return toast.success(msg);
     };
 
     const validURL = (str) => {
@@ -36,7 +36,7 @@ function App() {
         e.preventDefault();
         if (!validURL(longUrl)) {
             setTimeout(() => setLongUrl(""), 1000);
-            return notify("error", "Invalid Url!");
+            notify("error", "Invalid Url!");
         } else {
             console.log(true);
             const { data: shortUrl } = await createUrl({ longUrl });

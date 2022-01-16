@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import QRCode from "react-qr-code";
 import "react-toastify/dist/ReactToastify.css";
+import validUrl from "valid-url";
 
 import "./App.css";
 
@@ -13,35 +14,19 @@ function App() {
     const [url, setUrl] = useState("");
     const [longUrl, setLongUrl] = useState("");
     const [qrUrl, setQrUrl] = useState("");
-    const notify = (type = "success", msg) => {
-        if (type === "error") toast.error(msg);
-        else toast.success(msg);
-    };
 
-    const validURL = (str) => {
-        var pattern = new RegExp(
-            "^((ft|htt)ps?:\\/\\/)?" + // protocol
-                "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name and extension
-                "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-                "(\\:\\d+)?" + // port
-                "(\\/[-a-z\\d%@_.~+&:]*)*" + // path
-                "(\\?[;&a-z\\d%@_.,~+&:=-]*)?" + // query string
-                "(\\#[-a-z\\d_]*)?$",
-            "i"
-        ); // fragment locator
-        return pattern.test(str);
-    };
+    const notify = () => toast("Copied!");
 
     const handleSubmitUrl = async (e) => {
         e.preventDefault();
-        if (!validURL(longUrl)) {
-            setTimeout(() => setLongUrl(""), 1000);
-            return notify("error", "Invalid Url!");
-        } else {
-            console.log(true);
+
+        if (validUrl.isUri(longUrl)) {
             const { data: shortUrl } = await createUrl({ longUrl });
             setUrl(shortUrl);
             setQrUrl(longUrl);
+            setLongUrl("");
+        } else {
+            toast.error("Invalid Error!");
             setLongUrl("");
         }
     };
@@ -61,10 +46,10 @@ function App() {
                                 </h1>
 
                                 <div className="app__shorten">
-                                    <form class="input-group mb-3">
+                                    <form className="input-group mb-3">
                                         <input
                                             type="text"
-                                            class="form-control"
+                                            className="form-control"
                                             placeholder="Short your link..."
                                             aria-label="Short your link..."
                                             aria-describedby="button-addon2"
@@ -82,7 +67,6 @@ function App() {
                                             Shorten
                                         </button>
                                     </form>
-
                                     <div className=" input-group">
                                         {url && (
                                             <>
@@ -97,20 +81,15 @@ function App() {
                                                     <div>
                                                         <button
                                                             className="btn btn-primary"
-                                                            onClick={() =>
-                                                                notify(
-                                                                    "success",
-                                                                    "Copied!"
-                                                                )
-                                                            }
+                                                            onClick={notify}
                                                         >
                                                             Copy
                                                         </button>
-                                                        <ToastContainer />
                                                     </div>
                                                 </CopyToClipboard>
                                             </>
                                         )}
+                                        <ToastContainer />
                                     </div>
                                 </div>
 

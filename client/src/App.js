@@ -13,14 +13,37 @@ function App() {
     const [url, setUrl] = useState("");
     const [longUrl, setLongUrl] = useState("");
     const [qrUrl, setQrUrl] = useState("");
-    const notify = () => toast.success("Copied!");
+    const notify = (type = "success", msg) => {
+        if (type === "error") toast.error(msg);
+        else toast.success(msg);
+    };
+
+    const validURL = (str) => {
+        var pattern = new RegExp(
+            "^((ft|htt)ps?:\\/\\/)?" + // protocol
+                "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name and extension
+                "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+                "(\\:\\d+)?" + // port
+                "(\\/[-a-z\\d%@_.~+&:]*)*" + // path
+                "(\\?[;&a-z\\d%@_.,~+&:=-]*)?" + // query string
+                "(\\#[-a-z\\d_]*)?$",
+            "i"
+        ); // fragment locator
+        return pattern.test(str);
+    };
 
     const handleSubmitUrl = async (e) => {
         e.preventDefault();
-        const { data: shortUrl } = await createUrl({ longUrl });
-        setUrl(shortUrl);
-        setQrUrl(longUrl);
-        setLongUrl("");
+        if (!validURL(longUrl)) {
+            setTimeout(() => setLongUrl(""), 1000);
+            return notify("error", "Invalid Url!");
+        } else {
+            console.log(true);
+            const { data: shortUrl } = await createUrl({ longUrl });
+            setUrl(shortUrl);
+            setQrUrl(longUrl);
+            setLongUrl("");
+        }
     };
 
     return (
@@ -74,7 +97,12 @@ function App() {
                                                     <div>
                                                         <button
                                                             className="btn btn-primary"
-                                                            onClick={notify}
+                                                            onClick={() =>
+                                                                notify(
+                                                                    "success",
+                                                                    "Copied!"
+                                                                )
+                                                            }
                                                         >
                                                             Copy
                                                         </button>
